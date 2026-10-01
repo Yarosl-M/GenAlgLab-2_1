@@ -1,12 +1,401 @@
 ﻿<Window x:Class="GenAlgLab_2_1.Form.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GenAlgLab_2_1.Form"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="TSP Genetic Algorithm"
+        Width="1200"
+        Height="800"
+        MinWidth="1000"
+        MinHeight="650">
+
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="330"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ==================== PARAMETERS ==================== -->
+
+        <ScrollViewer Grid.Column="0"
+                      VerticalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+                <TextBlock Text="Параметры генетического алгоритма"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,16"/>
+
+                <!-- TSP -->
+
+                <GroupBox Header="Задача" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Количество городов:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Column="1"
+                                 Text="100"
+                                 Margin="5,2"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Тип теста:"
+                                   VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Row="1"
+                                  Grid.Column="1"
+                                  Margin="5,2"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="Нейросеть"/>
+                            <ComboBoxItem Content="Города на линии"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="Шаг линии:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="1"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Population -->
+
+                <GroupBox Header="Популяция" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Размер популяции:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Column="1"
+                                 Text="100"
+                                 Margin="5,2"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Поколений:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="1000"
+                                 Margin="5,2"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="Seed:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="42"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Selection -->
+
+                <GroupBox Header="Селекция" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Метод:"
+                                   VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="1"
+                                  Margin="5,2"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="Рулетка"/>
+                            <ComboBoxItem Content="Турнир"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Размер турнира:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="3"
+                                 Margin="5,2"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="Количество родителей:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="50"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Crossover -->
+
+                <GroupBox Header="Кроссовер" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Метод:"
+                                   VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="1"
+                                  Margin="5,2"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="Order Crossover (OX)"/>
+                            <ComboBoxItem Content="PMX"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Вероятность:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="0.9"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Mutation -->
+
+                <GroupBox Header="Мутация" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Метод:"
+                                   VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="1"
+                                  Margin="5,2"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="Swap"/>
+                            <ComboBoxItem Content="Insertion"/>
+                            <ComboBoxItem Content="Inversion"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Вероятность:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="0.05"
+                                 Margin="5,2"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Text="Количество мутаций:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="1"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Elitism -->
+
+                <GroupBox Header="Элитизм" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Content="Использовать элитизм"
+                                  IsChecked="True"
+                                  VerticalAlignment="Center"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Количество элитных:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="2"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <!-- Stop condition -->
+
+                <GroupBox Header="Условие остановки" Margin="0,0,0,12">
+                    <Grid Margin="10">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Тип:"
+                                   VerticalAlignment="Center"/>
+
+                        <ComboBox Grid.Column="1"
+                                  Margin="5,2"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="Максимум поколений"/>
+                            <ComboBoxItem Content="Без улучшения"/>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Порог:"
+                                   VerticalAlignment="Center"/>
+
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="1000"
+                                 Margin="5,2"/>
+
+                    </Grid>
+                </GroupBox>
+
+
+                <Button Content="Запустить"
+                        Height="40"
+                        FontSize="16"
+                        Margin="0,5,0,0"/>
+
+                <Button Content="Остановить"
+                        Height="35"
+                        Margin="0,5,0,0"/>
+
+                <Button Content="Сбросить"
+                        Height="35"
+                        Margin="0,5,0,0"/>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+
+        <!-- ==================== VISUALIZATION ==================== -->
+
+        <Grid Grid.Column="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Route -->
+
+            <GroupBox Header="Маршрут"
+                      Grid.Row="0">
+
+                <Grid Margin="5">
+
+                    <!-- Сюда потом Canvas -->
+                    <Canvas Background="White"/>
+
+                </Grid>
+
+            </GroupBox>
+
+
+            <!-- Graphs -->
+
+            <Grid Grid.Row="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Header="Лучшая особь">
+                    <Grid>
+                        <!-- График best fitness -->
+                        <Canvas Background="White"/>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Среднее значение"
+                          Grid.Column="2">
+                    <Grid>
+                        <!-- График average fitness -->
+                        <Canvas Background="White"/>
+                    </Grid>
+                </GroupBox>
+
+            </Grid>
+
+        </Grid>
 
     </Grid>
+
 </Window>
