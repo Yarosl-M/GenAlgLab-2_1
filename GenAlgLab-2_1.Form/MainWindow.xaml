@@ -112,7 +112,7 @@
 
                         <TextBox Grid.Row="2"
                                  Grid.Column="1"
-                                 Text="42"
+                                 Text="1225"
                                  Margin="5,2"/>
 
                     </Grid>
