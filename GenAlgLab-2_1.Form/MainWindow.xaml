@@ -76,7 +76,7 @@
                            Text="Параметры генетического алгоритма"
                            FontSize="20"
                            FontWeight="Bold"
-                           Margin="0,0,0,16"/>
+                           Margin="0,0,0,16" TextWrapping="Wrap"/>
                 
 
                 <GroupBox x:Name="TaskGroupBox"
