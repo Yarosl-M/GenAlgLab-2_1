@@ -59,9 +59,16 @@
         <!-- Параметры алгоритма -->
         <!-- ===================================================== -->
 
-        <ScrollViewer x:Name="ParametersScrollViewer"
-                      Grid.Column="2"
-                      VerticalScrollBarVisibility="Auto">
+        <Grid Grid.Column="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer x:Name="ParametersScrollViewer"
+                          Grid.Row="0"
+                          VerticalScrollBarVisibility="Auto">
 
             <StackPanel>
 
@@ -444,7 +451,13 @@
                 </GroupBox>
 
 
-                <!-- Кнопки для операций -->
+            </StackPanel>
+
+            </ScrollViewer>
+
+            <!-- Кнопки для операций отдельно -->
+
+            <StackPanel Grid.Row="1">
 
                 <Button x:Name="StartButton"
                         Content="Запустить"
@@ -464,7 +477,7 @@
 
             </StackPanel>
 
-        </ScrollViewer>
+        </Grid>
 
     </Grid>
 
